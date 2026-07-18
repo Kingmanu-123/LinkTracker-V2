@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Link Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Animated Ambient Background Scene -->
+    <div class="scene">
+        <div class="sun"></div>
+        <div class="mist m1"></div>
+        <div class="mist m2"></div>
+        <div class="mist m3"></div>
+        <div class="mist m4"></div>
+        <div class="mountains">
+            <svg viewBox="0 0 1200 320" preserveAspectRatio="none">
+                <polygon points="0,320 0,190 220,60 460,180 700,45 940,185 1200,90 1200,320" fill="rgba(255,255,255,0.30)"/>
+                <polygon points="205,60 240,60 224,88 220,88" fill="rgba(255,255,255,0.72)"/>
+                <polygon points="685,45 725,45 707,79 701,79" fill="rgba(255,255,255,0.76)"/>
+                <polygon points="923,90 960,90 944,120 938,120" fill="rgba(255,255,255,0.72)"/>
+
+                <polygon points="0,320 0,210 180,95 380,205 600,75 820,215 1030,120 1200,205 1200,320" fill="rgba(45,52,88,0.65)"/>
+                <polygon points="163,95 197,95 182,121 178,121" fill="rgba(255,255,255,0.55)"/>
+                <polygon points="580,75 620,75 602,107 598,107" fill="rgba(255,255,255,0.58)"/>
+                <polygon points="1012,120 1048,120 1033,148 1027,148" fill="rgba(255,255,255,0.52)"/>
+
+                <polygon points="0,320 0,240 260,150 500,250 760,140 1000,240 1200,170 1200,320" fill="rgba(62,72,110,0.75)"/>
+                <polygon points="243,150 277,150 262,174 258,174" fill="rgba(255,255,255,0.6)"/>
+                <polygon points="742,140 778,140 763,166 757,166" fill="rgba(255,255,255,0.56)"/>
+                <polygon points="983,170 1017,170 1002,196 998,196" fill="rgba(255,255,255,0.52)"/>
+
+                <polygon points="0,320 0,270 300,205 560,275 830,195 1080,270 1200,235 1200,320" fill="rgba(150,168,198,0.55)"/>
+                <polygon points="280,205 320,205 302,232 298,232" fill="rgba(255,255,255,0.68)"/>
+                <polygon points="810,195 850,195 832,225 828,225" fill="rgba(255,255,255,0.68)"/>
+            </svg>
+        </div>
+        <div class="snow-ambient"></div>
+        <div class="contrast-wash"></div>
+        <div id="bokeh-layer"></div>
+        <div id="petal-layer"></div>
+        <div id="snow-fg-layer"></div>
+    </div>
+
+    <!-- Main Container Layout -->
+    <div class="container">
+
+        <!-- ================= HOME PAGE ================= -->
+        <div class="page" id="page-home">
+
+            <header class="glass">
+                <div class="logo-mark neon-orb" id="brand-logo-home">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M12 2C7 4 4 8 4 13C4 17.5 7.5 21 12 21C16.5 21 20 17.5 20 13C20 8 17 4 12 2Z" fill="#0b2417"/>
+                        <path d="M12 21V8" stroke="#34D17A" stroke-width="1.4" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="brand">
+                    <h1>Link Tracker</h1>
+                    <p>URL Shortener &amp; Analytics</p>
+                </div>
+                <div class="search-pill">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+                    <input type="text" id="home-search-input" placeholder="Search links..." spellcheck="false" autocorrect="off" autocapitalize="off">
+                    <button class="search-clear-btn" id="home-search-clear" title="Clear">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                    </button>
+                    <button class="search-icon-btn" id="home-search-go" title="Search">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" width="16" height="16"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                    </button>
+                </div>
+                <div class="header-stats">
+                    <div class="stat-chip">
+                        <span class="stat-icon neon-orb">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 13a5 5 0 007 0l3-3a5 5 0 00-7-7l-1.5 1.5"/><path d="M14 11a5 5 0 00-7 0l-3 3a5 5 0 007 7l1.5-1.5"/></svg>
+                        </span>
+                        <div class="stat-text">
+                            <span class="stat-value" id="stat-active">0</span>
+                            <span class="stat-label">Active Links</span>
+                        </div>
+                    </div>
+                    <div class="stat-chip">
+                        <span class="stat-icon neon-orb">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+                        </span>
+                        <div class="stat-text">
+                            <span class="stat-value" id="stat-views">0</span>
+                            <span class="stat-label">Total Clicks</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="workspace">
+                <!-- Shortener Input Panel -->
+                <section class="panel glass form-panel">
+                    <div class="panel-title">
+                        <span class="dot-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></span>
+                        Create New Tracking Link
+                    </div>
+
+                    <div class="field">
+                        <label for="url-input">Original URL</label>
+                        <div class="field-input">
+                            <span class="field-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007 0l3-3a5 5 0 00-7-7l-1.5 1.5"/><path d="M14 11a5 5 0 00-7 0l-3 3a5 5 0 007 7l1.5-1.5"/></svg></span>
+                            <input type="text" id="url-input" placeholder="https://example.com" spellcheck="false" autocorrect="off" autocapitalize="off" autocomplete="off">
+                        </div>
+                        <span class="error-msg" id="url-error">Please enter a valid target URL.</span>
+                    </div>
+
+                    <div class="field">
+                        <label for="alias-input">Custom Short Code (Optional)</label>
+                        <div class="field-input">
+                            <span class="field-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C7 4 4 8 4 13C4 17.5 7.5 21 12 21C16.5 21 20 17.5 20 13C20 8 17 4 12 2Z"/></svg></span>
+                            <input type="text" id="alias-input" placeholder="promo2026" spellcheck="false" autocorrect="off" autocapitalize="off" autocomplete="off">
+                        </div>
+                    </div>
+
+                    <button id="create-btn">
+                        <span>Create Link</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                    </button>
+                </section>
+
+                <!-- Generation Result Panel -->
+                <section class="panel glass receipt-panel" id="receipt-panel">
+                    <div class="receipt-empty" id="receipt-empty">
+                        Create a tracking link to see it here.
+                    </div>
+
+                    <div id="receipt-content" style="display:none; width:100%;">
+                        <div class="success-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007 0l3-3a5 5 0 00-7-7l-1.5 1.5"/><path d="M14 11a5 5 0 00-7 0l-3 3a5 5 0 007 7l1.5-1.5"/></svg>
+                        </div>
+                        <h3>Active Link Created!</h3>
+                        <p class="sub">🍃 Your link is ready to share</p>
+
+                        <div class="link-glow-box">
+                            <span id="gen-short"></span>
+                            <button id="copy-icon-btn" title="Copy">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                            </button>
+                        </div>
+
+                        <div class="receipt-rows">
+                            <div class="row"><span class="label">Original URL</span><span class="value" id="gen-orig"></span></div>
+                            <div class="row"><span class="label">Short Code</span><span class="value" id="gen-code"></span></div>
+                            <div class="row"><span class="label">Created At</span><span class="value" id="gen-time"></span></div>
+                            <div class="row">
+                                <span class="label">Status</span>
+                                <span class="status-badge"><span class="pulse-dot"></span>ACTIVE</span>
+                            </div>
+                        </div>
+
+                        <div class="receipt-actions">
+                            <button class="btn-glass" id="reset-receipt-btn">Clear View</button>
+                            <button class="btn-primary-gradient" id="visit-gen-btn">Visit Link</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Tracking History Panel List -->
+            <section class="panel glass history-section">
+                <div class="history-header">
+                    <div class="title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        Recent Activity
+                    </div>
+                    <button class="view-all-btn" id="view-all-links-btn">
+                        <span>View Database</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg>
+                    </button>
+                </div>
+                <div class="history-list" id="history-list-target">
+                    <!-- Dynamic history injection item cards appear here via JS -->
+                    <div class="empty-state">No links tracked yet. Create one above!</div>
+                </div>
+                <div class="history-footer">
+                    <span>Tracking Engine Active</span>
+                    <span>Local Session Node</span>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= ALL LINKS DATABASE VIEW PAGE ================= -->
+        <div class="page page-hidden" id="page-listing">
+            <div class="listing-topbar glass">
+                <button class="back-btn" id="back-to-home-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 19l-7-7 7-7"/></svg>
+                    Back to Workspace
+                </button>
+                <div class="listing-brand" id="brand-logo-listing">
+                    <div class="logo-mark neon-orb">
+                        <svg viewBox="0 0 24 24" fill="none"><path d="M12 2C7 4 4 8 4 13C4 17.5 7.5 21 12 21C16.5 21 20 17.5 20 13C20 8 17 4 12 2Z" fill="#0b2417"/><path d="M12 21V8" stroke="#34D17A" stroke-width="1.4" stroke-linecap="round"/></svg>
+                    </div>
+                    <span>Data Repository</span>
+                </div>
+            </div>
+
+            <section class="panel glass listing-header-panel">
+                <div class="listing-title-row">
+                    <h2>Tracked Analytics Index</h2>
+                    <span class="count-pill" id="index-count-badge">0 links listed</span>
+                </div>
+
+                <div class="listing-search-row">
+                    <div class="search-pill">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+                        <input type="text" id="db-search-input" placeholder="Filter active repositories by keyword..." spellcheck="false">
+                        <button class="search-clear-btn" id="db-search-clear" title="Clear">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="filter-bar">
+                    <div style="display: flex; gap: 0.5rem;" id="filter-chips-container">
+                        <span class="filter-chip active" data-filter="all">All Records</span>
+                        <span class="filter-chip" data-filter="popular">Highly Visited (&gt; 10)</span>
+                    </div>
+                    <button class="sort-btn" id="db-sort-toggle-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 4h13M3 8h9M3 12h5m0 4h13m-3-3l3 3-3 3"/></svg>
+                        <span>Sorted By: Newest</span>
+                    </button>
+                </div>
+
+                <div class="listing-list" id="db-list-target">
+                    <!-- Complete index card entries systematically load here -->
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Global Floating Actions & Dynamic Tooltips Context Dropdown Menu -->
+    <div class="menu-dropdown" id="actions-context-menu">
+        <button class="menu-item" id="ctx-copy-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            Copy Short URL
+        </button>
+        <button class="menu-item" id="ctx-visit-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6m4-3h6v6m-11 5L21 3"/></svg>
+            Open in New Tab
+        </button>
+        <button class="menu-item" id="ctx-simulate-click">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+            Simulate Click (+1)
+        </button>
+        <button class="menu-item delete-item" id="ctx-delete-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+            Delete Permanently
+        </button>
+    </div>
+
+    <!-- Alert Notifications Feedback Hub -->
+    <div class="toast-alert" id="global-toast-notifier">Copied text successfully!</div>
+
+    <!-- Javascript Script Connection Point -->
+    <script src="app.js"></script>
+</body>
+</html>
